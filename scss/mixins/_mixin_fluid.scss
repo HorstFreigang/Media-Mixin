@@ -1,0 +1,110 @@
+// Stripping units from string and returning number
+@function strip-unit($value) {
+    $unit: '';
+    $number: 0;
+
+    @if type-of($value) {
+        $unit: unit($value);
+        $number: str-slice(inspect($value), 1, (str-index(inspect($value), $unit)) - 1);
+    }
+    
+    @return ($number);
+}
+
+// Mixin
+@mixin fluid($args...) {
+    $min_sizes: ();
+    $max_sizes: ();
+
+    @debug $args;
+
+    // Plotting minimum value and property
+    @each $arg in $args {
+        $property: nth($arg, 1);
+        $min_val:  nth($arg, 2);
+
+        #{unquote('#{$property}')}: $min_val;
+    }
+
+    // Getting largest breakpoint
+    @each $arg in $args {
+        $largest_breakpoint: nth($arg, 5);
+    }
+
+    // Plotting maximum value and property
+    @each $arg in $args {
+        $property: nth($arg, 1);
+        $min_val:  nth($arg, 4);
+
+        #{unquote('#{$property}')}: $min_val;
+    }
+
+    // // Helper-maps
+    // @each $arg in $args {
+    //     $name:  nth($arg, 1);
+    //     $min_v: nth($arg, 2);
+    //     $max_v: nth($arg, 3);
+    //     $min_s: nth($arg, 4);
+    //     $max_s: nth($arg, 5);
+
+    //     @if map-has-key($min_sizes, #{$min_s}) {
+    //         $min_temp: map-get($min_sizes, #{$min_s});
+    //         $min_sizes: map-merge($min_sizes, (
+    //             #{$min_s}: map-merge($min_temp, (#{$name}: $min_v $max_v $min_s $max_s))
+    //         ));
+    //     } @else {
+    //         $min_sizes: map-merge($min_sizes, (
+    //             #{$min_s}: (
+    //                 #{$name}: $min_v $max_v $min_s $max_s
+    //             )
+    //         ));
+    //     }
+
+    //     @if map-has-key($max_sizes, #{$max_s}) {
+    //         $max_temp: map-get($max_sizes, #{$max_s});
+    //         $max_sizes: map-merge($max_sizes, (
+    //             #{$max_s}: map-merge($max_temp, (#{$name}: $max_v))
+    //         ));
+    //     } @else {
+    //         $max_sizes: map-merge($max_sizes, (
+    //             #{$max_s}: (
+    //                 #{$name}: $max_v
+    //             )
+    //         ));
+    //     }
+    // }
+
+    // @each $break in $min_sizes {
+    //     $map: nth($break, 2);
+    //     $props: map-keys($map);
+
+    //     @include media('>=#{nth($break, 1)}') {
+    //         @each $prop in $props {
+    //             $property: $prop;
+    //             $min_val: nth(map-get($map, $prop), 1);
+    //             $max_val: nth(map-get($map, $prop), 2);
+    //             $min_size: nth(map-get($map, $prop), 3);
+    //             $max_size: nth(map-get($map, $prop), 4);
+
+    //             $minv_unitless: strip-unit($min_val);
+    //             $maxv_unitless: strip-unit($max_val);
+    //             $mins_unitless: strip-unit($min_size);
+    //             $maxs_unitless: strip-unit($max_size);
+
+    //             #{unquote('#{$property}')}: calc(#{$min_val} + (#{$maxv_unitless} - #{$minv_unitless}) * (100vw - #{$min_size}) / (#{$maxs_unitless} - #{$mins_unitless}));
+    //         }
+    //     }
+    // }
+
+    // @each $break in $max_sizes {
+    //     $map: nth($break, 2);
+    //     $props: map-keys($map);
+
+    //     @include media('>=#{nth($break, 1)}') {
+    //         @each $prop in $props {
+    //             $max_val: nth(map-get($map, $prop), 1);
+    //             #{unquote('#{$prop}')}: $max_val;
+    //         }
+    //     }
+    // }
+}

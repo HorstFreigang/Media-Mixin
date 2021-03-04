@@ -1,0 +1,22 @@
+{
+  "name": "scss_mixins",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npx -p node@12 -- npm install",
+    "gulp": "npx -p node@12 -- gulp"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "4.0.2",
+    "gulp-autoprefixer": "7.0.1",
+    "gulp-sass": "4.0.2"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead"
+  ]
+}

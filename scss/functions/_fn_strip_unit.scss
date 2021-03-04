@@ -1,0 +1,11 @@
+@function strip-unit($value) {
+    $unit: '';
+    $number: 0;
+
+    @if type-of($value) {
+        $unit: unit($value);
+        $number: str-slice(inspect($value), 1, (str-index(inspect($value), $unit)) - 1);
+    }
+    
+    @return ($number);
+}

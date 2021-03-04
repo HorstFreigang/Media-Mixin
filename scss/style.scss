@@ -1,0 +1,25 @@
+@import "functions/fn_rem_calc";
+@import "functions/fn_strip_unit";
+
+@import "mixins/mixin_fluid";
+@import "mixins/mixin_font";
+@import "mixins/mixin_media";
+
+.test {
+    display: block;
+
+    @include media('>=xs') {
+        display: flex;
+    }
+
+    @include media('>=lg', '>lg', '<=lg', '<lg') {
+        color: black;
+    }
+}
+
+.fluid {
+    @include fluid(
+        width 10px 'sm' 200px 'lg',
+        height 20px 'sm' 220px 'lg'
+    );
+}

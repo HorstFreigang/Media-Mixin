@@ -1,0 +1,44 @@
+@mixin font($values...) {
+    $fs: null;
+    $fw: null;
+    $lh: null;
+
+    @each $value in $values {
+        $index: index($values, $value);
+        $val: nth($values, $index);
+
+        @if type-of($val) == number {
+            @if $fs == null {
+                $fs: $val;
+            } @else {
+                @if $lh == null {
+                    $lh: $val;
+                }
+            }
+        }
+
+        @if type-of($val) == string {
+            @if $fw == null {
+                $fw: $val;
+            }
+        }
+    }
+
+    @if $fs != null {
+        font-size: rem($fs);
+    }
+
+    @if $fw == light {
+        font-weight: 300;
+    } @else if $fw == regular {
+        font-weight: 400;
+    } @else if $fw == medium {
+        font-weight: 500;
+    } @else if $fw == bold {
+        font-weight: 700;
+    }
+
+    @if $lh != null {
+        line-height: ($lh / $fs);
+    }
+}

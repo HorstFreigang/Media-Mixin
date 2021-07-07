@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "npx -p node@12 -- npm install",
-    "gulp": "npx -p node@12 -- gulp"
+    "setup": "npm install",
+    "gulp": "gulp"
   },
   "author": "",
   "license": "ISC",

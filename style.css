@@ -1,22 +1,28 @@
-.test {
-  display: block;
+body {
+  margin: 0;
 }
 
-@media only screen and (min-width: 575px) {
-  .test {
-    display: flex;
+.box {
+  width: 100vw;
+  height: 50vh;
+}
+
+.box-px {
+  background-color: grey;
+}
+
+@media only screen and (max-width: 767px) {
+  .box-px {
+    opacity: .5;
   }
 }
 
-@media only screen and (min-width: 1200px), only screen and (min-width: 1201px), only screen and (max-width: 1200px), only screen and (max-width: 1199px) {
-  .test {
-    color: black;
-  }
+.box-em {
+  background-color: coral;
 }
 
-.fluid {
-  width: 10px;
-  height: 20px;
-  width: 200px;
-  height: 220px;
+@media only screen and (max-width: 47.9375em) {
+  .box-em {
+    opacity: .5;
+  }
 }

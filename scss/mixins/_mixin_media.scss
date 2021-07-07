@@ -7,7 +7,7 @@ $breakpoints: (
 ) !default;
 
 // Parsing passed string to a number
-@function parseInt($str) {
+@function parseInt($str, $unit) {
     $number: 0;
     $digits: (
         '0': 0,
@@ -26,11 +26,13 @@ $breakpoints: (
         $number: $number * 10 + map-get($digits, str_slice($str, $i, $i));
     }
 
-    @return ($number * 1px);
-}
+    @if $unit == 'px' {
+        $number: $number * 1px;
+    } @else if $unit == 'em' {
+        $number: $number * 1em;
+    }
 
-@function check_query() {
-
+    @return $number;
 }
 
 // Getting the operator of the breakpoint
@@ -80,12 +82,19 @@ $breakpoints: (
 @function get_breakpoint($value) {
     $width: 0;
     $substr: 0;
+    $unit: '';
 
     @if map-get($breakpoints, $value) != null {
         $width: map-get($breakpoints, $value);
     } @else {
-        $substr: str_slice($value, 0, str_index($value, 'px') - 1);
-        $width: parseInt($substr);
+        @if str_index($value, 'px') != null {
+            $substr: str_slice($value, 0, str_index($value, 'px') - 1);
+            $unit: px;
+        } @else if str_index($value, 'em') != null {
+            $substr: str_slice($value, 0, str_index($value, 'em') - 1);
+            $unit: em;
+        }
+        $width: parseInt($substr, $unit);
     }
 
     @return $width;
@@ -120,11 +129,21 @@ $breakpoints: (
 
             @if $operator != null {
                 $length: get_breakpoint($value);
+                $lengthMinus: 0;
+                $lengthPlus: 0;
+
+                @if unit($length) == 'px' {
+                    $lengthMinus: $length - 1;
+                    $lengthPlus: $length + 1;
+                } @else if unit($length) == 'em' {
+                    $lengthMinus: $length - .0625;
+                    $lengthPlus: $length + .0625;
+                }
 
                 @if $operator == '>' {
-                    $query: $query + '(min-width: #{($length + 1)})';
+                    $query: $query + '(min-width: #{$lengthPlus})';
                 } @else if $operator == '<' {
-                    $query: $query + '(max-width: #{($length - 1)})';
+                    $query: $query + '(max-width: #{$lengthMinus})';
                 } @else if $operator == '>=' {
                     $query: $query + '(min-width: #{$length})';
                 } @else if $operator == '<=' {
@@ -134,9 +153,9 @@ $breakpoints: (
                 }
 
                 @if $operator == 'h>' {
-                    $query: $query + '(min-height: #{($length + 1)})';
+                    $query: $query + '(min-height: #{$lengthPlus})';
                 } @else if $operator == 'h<' {
-                    $query: $query + '(max-height: #{($length - 1)})';
+                    $query: $query + '(max-height: #{$lengthMinus})';
                 } @else if $operator == 'h>=' {
                     $query: $query + '(min-height: #{$length})';
                 } @else if $operator == 'h<=' {

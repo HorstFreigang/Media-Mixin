@@ -5,21 +5,51 @@
 @import "mixins/mixin_font";
 @import "mixins/mixin_media";
 
-.test {
-    display: block;
+body {
+    margin: 0;
+}
 
-    @include media('>=xs') {
-        display: flex;
-    }
+// .test {
+//     display: block;
 
-    @include media('>=lg', '>lg', '<=lg', '<lg') {
-        color: black;
+//     @include media('>=xs') {
+//         display: flex;
+//     }
+
+//     @include media('>=lg', '>lg', '<=lg', '<lg') {
+//         color: black;
+//     }
+// }
+
+// .fluid {
+//     @include fluid(
+//         width 10px 'sm' 200px 'lg',
+//         height 20px 'sm' 220px 'lg'
+//     );
+// }
+
+$breakpoints: (
+    'px': 768px,
+    'em': 48em,
+);
+
+.box {
+    width: 100vw;
+    height: 50vh;
+}
+
+.box-px {
+    background-color: grey;
+
+    @include media('<768px') {
+        opacity: .5;
     }
 }
 
-.fluid {
-    @include fluid(
-        width 10px 'sm' 200px 'lg',
-        height 20px 'sm' 220px 'lg'
-    );
+.box-em {
+    background-color: coral;
+
+    @include media('<48em') {
+        opacity: .5;
+    }
 }
